@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>로그인</title>
+    <title>회원가입</title>
     <!-- bootstrap v5.3 -->
     <link
       rel="stylesheet"
@@ -17,54 +17,66 @@
       /* 사용자 정의 스타일 */
     </style>
   </head>
-
   <body>
-    <div class="container mt-5" style="align-items: center">
+    <div class="container mt-5">
       <div class="row">
-        <div class="col-4">
-          <!-- 로그인 폼 -->
-          <form method="post" name="loginForm" id="loginForm" onsubmit="return login();" action="hidden">
+        <div class="col-9">
+          <!-- 회원가입 폼 -->
+          <form action="register" method="post" name="registerForm" id="registerForm" onsubmit="return register();">
             <input type="hidden" name="token" value="secret-code" />
             <div class="card">
-              <div class="card-header">로그인</div>
+              <div class="card-header">회원가입 (<span class="text-danger">*은 필수입력입니다</span>)</div>
               <div class="card-body">
+                <!-- 이름 -->
+                <div class="mb-3">
+                  <label for="name" class="form-label"> 이름&nbsp;<span class="text-danger">*</span> </label>
+                  <input type="text" class="form-control" name="name" id="name" placeholder="이름" />
+                  <div class="form-text">2자리에서 4자리 정보를 입력해주세요</div>
+                </div>
+                <!-- 연락처 -->
+                <div class="mb-3">
+                  <label for="tel" class="form-label"> 연락처 </label>
+                  <input type="tel" class="form-control" name="tel" id="tel" placeholder="010-xxxx-xxxx" />
+                  <div class="form-text">-포함해서 전체 연락처를 입력해주세요</div>
+                </div>
+                <!-- 이메일 -->
+                <div class="mb-3">
+                  <label for="email" class="form-label"> 이메일 </label>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="abc@abc.com" />
+                </div>
                 <!-- 아이디 -->
                 <div class="mb-3">
-                  <label for="userid" class="form-label"> 아이디 </label>
-                  <input type="text" class="form-control" name="userid" id="userid" />
+                  <label for="userid" class="form-label"> 아이디&nbsp;<span class="text-danger">*</span> </label>
+                  <input type="text" class="form-control" name="userid" id="userid" placeholder="아이디" />
+                  <div class="form-text">8 ~ 20글자 영소문자, 숫자를 이용해서 입력해주세요</div>
                 </div>
                 <!-- 비밀번호 -->
                 <div class="mb-3">
-                  <label for="password" class="form-label"> 비밀번호 </label>
-                  <input type="password" class="form-control" name="password" id="password" />
+                  <label for="password" class="form-label"> 비밀번호&nbsp;<span class="text-danger">*</span> </label>
+                  <div class="input-group">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" />
+                    <span class="input-group-text" onclick="showPassword();" id="show">보기</span>
+                  </div>
+                  <div class="form-text">8 ~ 20글자 영문자, 숫자, 특수문자(_-$@)를 이용해서 입력해주세요</div>
                 </div>
+                <!-- 비밀번호 확인 -->
                 <div class="mb-3">
-                  <label for="phonenumber" class="form-label"> 전화번호 </label>
-                  <input type="number" class="form-control" name="phone" id="phone" />
-                </div>
-                <div class="mb-3">
-                  <label for="passwordconfirm" class="form-label"> 나이 </label>
-                  <input type="passwordconfirm" class="form-control" name="passwordconfirm" id="passwordconfirm" />
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label"> 이메일 </label>
-                  <input type="email" class="form-control" name="email" id="email" />
-                </div>
-                <div class="mb-3">
-                  <label for="address" class="form-label"> 주소 </label>
-                  <input type="address" class="form-control" name="address" id="address" />
+                  <label for="password2" class="form-label">
+                    비밀번호 확인&nbsp;<span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password2"
+                    id="password2"
+                    placeholder="비밀번호 확인"
+                  />
+                  <div class="form-text">비밀번호를 한번 더 입력해주세요</div>
                 </div>
               </div>
               <div class="card-footer">
-                <button
-                  type="submit"
-                  id="loginBtn"
-                  name="loginBtn"
-                  ondbclick="alert('로그인2');"
-                  class="btn btn-primary"
-                >
-                  로그인
-                </button>
+                <button type="submit" id="loginBtn" name="loginBtn" class="btn btn-primary">회원가입</button>
+                <a class="btn btn-secondary" href="index.html">취소</a>
               </div>
             </div>
           </form>
@@ -81,56 +93,67 @@
     ></script>
     <!-- custom script -->
     <script>
-      /* 사용자 정의 자바스크립트
-        // 콘솔에 출력
-        // console.log('hello world');
-        // 경고창
-        // alert('hello world');
-        */
-      // let name = prompt('아이디를 입력하세요');
-      // console.log(name);
+      // 회원가입 처리
 
-      // let test = confirm('로그인 하시겠습니까?');
-      // console.log(test);
-      // document.getElementById('userid')
-      // 로그인 처리
-      function login() {
+      function register() {
+        const name = document.getElementById("name");
+        const tel = document.getElementById("tel");
+        const email = document.getElementById("email");
         const userid = document.getElementById("userid");
         const password = document.getElementById("password");
-        const email = document.getElementById("email");
-        const phone = document.getElementById("phone");
-        const passwordconfirm = document.getElementById("passwordconfirm");
-        const address = document.getElementById("address");
+        const password2 = document.getElementById("password2");
 
-        //console.log('login 함수 호출');
+        if (name.value.trim() == "") {
+          alert("이름을 입력해주세요");
+          name.focus();
+          return false;
+        }
+
+        if (tel.value.trim() == "") {
+          alert("전화번호를 입력해주세요");
+          tel.focus();
+          return false;
+        }
+
+        if (email.value.trim() == "") {
+          alert("이메일을 입력해주세요");
+          email.focus();
+          return false;
+        }
+
         if (userid.value.trim() == "") {
           alert("아이디를 입력해주세요");
           userid.focus();
           return false;
         }
+
         if (password.value.trim() == "") {
           alert("비밀번호를 입력해주세요");
           password.focus();
           return false;
         }
-        if (email.value.trim() == "") {
-          alert("email");
-          email.focus();
+
+        if (password2.value.trim() != password.value.trim()) {
+          alert("비밀번호와 비밀번호 확인이 일치하지 않습니다");
+          password.focus();
           return false;
         }
-        if (passwordconfirm.value.trim() !== "password") {
-          alert("비번 틀림");
-          passwordconfirm.focus();
-          return false;
+      }
+      let enc = true;
+
+      // 비밀번호를 평문으로 보여주기
+      function showPassword() {
+        const show = document.getElementById("show");
+        const password = document.getElementById("password");
+        if (enc) {
+          password.type = "text";
+          show.innerText = "숨김";
+        } else {
+          password.type = "password";
+          show.innerText = "보기";
         }
-        if (address.value.trim() == "") {
-          alert("주소를 입력해라");
-          address.focus();
-          return false;
-        }
-        //return false;
-        document.getElementById("loginForm").action = "./index.html";
-        document.getElementById("loginForm").method = "get";
+
+        enc = !enc; // Boolean 값을 반전
       }
     </script>
   </body>
