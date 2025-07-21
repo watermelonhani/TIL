@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Business Card Maker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f8fb;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    header h1 {
+      color: #4a7dff;
+      margin: 0;
+    }
+    header .signout {
+      color: #aaa;
+      cursor: pointer;
+    }
+    .container {
+      display: flex;
+      padding: 50px;
+      gap: 50px;
+    }
+    .form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+    .form input, .form select, .form button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form button {
+      background: #4a7dff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .preview {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.2);
+      width: 400px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .avatar {
+      background: #4a7dff;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+    }
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .details .name {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .details .company {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Business Card Maker</h1>
+    <div class="signout">Sing out</div>
+  </header>
+  <div class="container">
+    <div class="form">
+      <input type="text" id="name" placeholder="고영인" oninput="updatePreview()" />
+      <input type="text" id="company" placeholder="캐나다 회사" oninput="updatePreview()" />
+      <input type="text" id="address" placeholder="서울시 강남구 A길 123-12" oninput="updatePreview()" />
+      <input type="text" id="phone" placeholder="010-1234-5678" oninput="updatePreview()" />
+      <input type="email" id="email" placeholder="abcd12@ghi.com" oninput="updatePreview()" />
+      <select id="theme" onchange="updateTheme()">
+        <option value="white">white</option>
+        <option value="black">black</option>
+        <option value="blue">blue</option>
+      </select>
+      <input type="file" id="imageInput" accept="image/*" onchange="loadImage(event)" />
+      <button onclick="clearForm()">Delete</button>
+    </div>
+    <div class="preview" id="cardPreview">
+      <div class="avatar" id="avatar"></div>
+      <div class="details">
+        <div class="name" id="previewName">박소현</div>
+        <div class="company" id="previewCompany">캐나다 회사</div>
+        <div id="previewAddress">서울시 강남구 A길 123-12</div>
+        <div id="previewPhone">010-1234-5678</div>
+        <div id="previewEmail">abcd12@ghi.com</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updatePreview() {
+      document.getElementById('previewName').textContent = document.getElementById('name').value;
+      document.getElementById('previewCompany').textContent = document.getElementById('company').value;
+      document.getElementById('previewAddress').textContent = document.getElementById('address').value;
+      document.getElementById('previewPhone').textContent = document.getElementById('phone').value;
+      document.getElementById('previewEmail').textContent = document.getElementById('email').value;
+    }
+
+    function updateTheme() {
+      const color = document.getElementById('theme').value;
+      const preview = document.getElementById('cardPreview');
+      preview.style.backgroundColor = color;
+    }
+
+    function loadImage(event) {
+      const avatar = document.getElementById('avatar');
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          avatar.style.backgroundImage = `url('${e.target.result}')`;
+          avatar.style.backgroundSize = 'cover';
+          avatar.style.backgroundPosition = 'center';
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function clearForm() {
+      document.getElementById('name').value = '';
+      document.getElementById('company').value = '';
+      document.getElementById('address').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('theme').value = 'white';
+      document.getElementById('cardPreview').style.backgroundColor = 'white';
+      document.getElementById('avatar').style.backgroundImage = '';
+      updatePreview();
+    }
+  </script>
+</body>
+</html>
